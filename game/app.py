@@ -1,6 +1,7 @@
 """CLI entry point for the AI Quiz Game."""
 
 import sys
+from pathlib import Path
 from typing import Optional
 import typer
 from game.config import load_config
@@ -13,9 +14,18 @@ from engine.quiz_engine import run_quiz
 app = typer.Typer()
 
 
+def get_available_categories():
+    """Get list of available question categories from data folder."""
+    config = load_config()
+    data_folder = config["data_folder"]
+    category_files = list(data_folder.glob("questions_*.json"))
+    categories = [f.stem.replace("questions_", "") for f in category_files]
+    return sorted(categories)
+
+
 @app.command()
 def main(
-    category: str = typer.Option("general", "--category", "-c", help="Question category"),
+    category: str = typer.Option("general", "--category", "-c", help="Question category (general, science)"),
     limit: int = typer.Option(10, "--limit", "-l", help="Number of questions"),
     difficulty: Optional[str] = typer.Option(None, "--difficulty", "-d", help="Filter by difficulty (easy/medium/hard)"),
     leaderboard: Optional[int] = typer.Option(None, "--leaderboard", "-b", help="Show top N scores and exit")
@@ -40,7 +50,8 @@ def main(
         questions = load_questions(category)
     except FileNotFoundError as e:
         print(f"Error: {e}")
-        print(f"Available categories: general, science")
+        available = get_available_categories()
+        print(f"Available categories: {', '.join(available)}")
         sys.exit(1)
 
     # Select questions based on filters
