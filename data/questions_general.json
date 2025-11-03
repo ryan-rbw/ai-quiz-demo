@@ -1,0 +1,110 @@
+[
+  {
+    "id": "GEN-001",
+    "category": "general",
+    "difficulty": "easy",
+    "prompt": "What is the capital of France?",
+    "choices": ["Berlin", "Madrid", "Paris", "Rome"],
+    "answer_index": 2,
+    "hint": "Known as the City of Light"
+  },
+  {
+    "id": "GEN-002",
+    "category": "general",
+    "difficulty": "easy",
+    "prompt": "How many continents are there?",
+    "choices": ["5", "6", "7", "8"],
+    "answer_index": 2,
+    "hint": "Count them: Africa, Antarctica, Asia, Australia, Europe, North America, South America"
+  },
+  {
+    "id": "GEN-003",
+    "category": "general",
+    "difficulty": "medium",
+    "prompt": "Which planet is known as the Red Planet?",
+    "choices": ["Venus", "Mars", "Jupiter", "Saturn"],
+    "answer_index": 1,
+    "hint": "Named after the Roman god of war"
+  },
+  {
+    "id": "GEN-004",
+    "category": "general",
+    "difficulty": "medium",
+    "prompt": "Who wrote 'Romeo and Juliet'?",
+    "choices": ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
+    "answer_index": 1,
+    "hint": "An English playwright from Stratford-upon-Avon"
+  },
+  {
+    "id": "GEN-005",
+    "category": "general",
+    "difficulty": "hard",
+    "prompt": "What is the smallest prime number?",
+    "choices": ["0", "1", "2", "3"],
+    "answer_index": 2,
+    "hint": "It's the only even prime number"
+  },
+  {
+    "id": "GEN-006",
+    "category": "general",
+    "difficulty": "easy",
+    "prompt": "What color do you get when you mix red and blue?",
+    "choices": ["Green", "Purple", "Orange", "Brown"],
+    "answer_index": 1,
+    "hint": "It's a royal color"
+  },
+  {
+    "id": "GEN-007",
+    "category": "general",
+    "difficulty": "medium",
+    "prompt": "Which ocean is the largest?",
+    "choices": ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+    "answer_index": 3,
+    "hint": "It covers more than 30% of Earth's surface"
+  },
+  {
+    "id": "GEN-008",
+    "category": "general",
+    "difficulty": "easy",
+    "prompt": "How many days are in a leap year?",
+    "choices": ["365", "366", "364", "367"],
+    "answer_index": 1,
+    "hint": "It happens every 4 years"
+  },
+  {
+    "id": "GEN-009",
+    "category": "general",
+    "difficulty": "hard",
+    "prompt": "What is the speed of light in vacuum?",
+    "choices": ["300,000 km/s", "150,000 km/s", "450,000 km/s", "200,000 km/s"],
+    "answer_index": 0,
+    "hint": "Approximately 3 x 10^8 meters per second"
+  },
+  {
+    "id": "GEN-010",
+    "category": "general",
+    "difficulty": "medium",
+    "prompt": "Which gas makes up most of Earth's atmosphere?",
+    "choices": ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"],
+    "answer_index": 1,
+    "hint": "It makes up about 78% of the air"
+  },
+  {
+    "id": "GEN-011",
+    "category": "general",
+    "difficulty": "easy",
+    "prompt": "What is the largest mammal in the world?",
+    "choices": ["African Elephant", "Blue Whale", "Giraffe", "Polar Bear"],
+    "answer_index": 1,
+    "hint": "It lives in the ocean"
+  },
+  {
+    "id": "GEN-012",
+    "category": "general",
+    "difficulty": "hard",
+    "prompt": "Who painted the Mona Lisa?",
+    "choices": ["Michelangelo", "Leonardo da Vinci", "Raphael", "Donatello"],
+    "answer_index": 1,
+    "hint": "A Renaissance polymath who also invented flying machines"
+  }
+]

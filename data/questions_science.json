@@ -1,0 +1,110 @@
+[
+  {
+    "id": "SCI-001",
+    "category": "science",
+    "difficulty": "easy",
+    "prompt": "What gas do plants absorb from the atmosphere?",
+    "choices": ["Oxygen", "Carbon Dioxide", "Nitrogen", "Helium"],
+    "answer_index": 1,
+    "hint": "Humans exhale this gas"
+  },
+  {
+    "id": "SCI-002",
+    "category": "science",
+    "difficulty": "easy",
+    "prompt": "What is the chemical symbol for water?",
+    "choices": ["H2O", "O2", "CO2", "NaCl"],
+    "answer_index": 0,
+    "hint": "Two hydrogen atoms and one oxygen atom"
+  },
+  {
+    "id": "SCI-003",
+    "category": "science",
+    "difficulty": "medium",
+    "prompt": "What is the powerhouse of the cell?",
+    "choices": ["Nucleus", "Ribosome", "Mitochondria", "Chloroplast"],
+    "answer_index": 2,
+    "hint": "It produces ATP energy"
+  },
+  {
+    "id": "SCI-004",
+    "category": "science",
+    "difficulty": "medium",
+    "prompt": "What is the atomic number of Carbon?",
+    "choices": ["4", "6", "8", "12"],
+    "answer_index": 1,
+    "hint": "It's the number of protons in the nucleus"
+  },
+  {
+    "id": "SCI-005",
+    "category": "science",
+    "difficulty": "hard",
+    "prompt": "What is the name of the process by which plants make their food?",
+    "choices": ["Respiration", "Photosynthesis", "Fermentation", "Digestion"],
+    "answer_index": 1,
+    "hint": "It requires sunlight, water, and carbon dioxide"
+  },
+  {
+    "id": "SCI-006",
+    "category": "science",
+    "difficulty": "easy",
+    "prompt": "What force keeps us on the ground?",
+    "choices": ["Magnetism", "Friction", "Gravity", "Centrifugal"],
+    "answer_index": 2,
+    "hint": "Newton discovered it when an apple fell"
+  },
+  {
+    "id": "SCI-007",
+    "category": "science",
+    "difficulty": "medium",
+    "prompt": "What is the boiling point of water at sea level?",
+    "choices": ["90°C", "100°C", "110°C", "120°C"],
+    "answer_index": 1,
+    "hint": "At this temperature, water turns to steam"
+  },
+  {
+    "id": "SCI-008",
+    "category": "science",
+    "difficulty": "hard",
+    "prompt": "What particle has no electric charge?",
+    "choices": ["Proton", "Electron", "Neutron", "Positron"],
+    "answer_index": 2,
+    "hint": "It's found in the nucleus along with protons"
+  },
+  {
+    "id": "SCI-009",
+    "category": "science",
+    "difficulty": "easy",
+    "prompt": "How many bones are in the adult human body?",
+    "choices": ["186", "206", "226", "246"],
+    "answer_index": 1,
+    "hint": "Just over 200"
+  },
+  {
+    "id": "SCI-010",
+    "category": "science",
+    "difficulty": "medium",
+    "prompt": "What is the largest organ in the human body?",
+    "choices": ["Heart", "Liver", "Brain", "Skin"],
+    "answer_index": 3,
+    "hint": "It covers your entire body"
+  },
+  {
+    "id": "SCI-011",
+    "category": "science",
+    "difficulty": "hard",
+    "prompt": "What is the most abundant element in the universe?",
+    "choices": ["Oxygen", "Carbon", "Hydrogen", "Helium"],
+    "answer_index": 2,
+    "hint": "It's the lightest and simplest element"
+  },
+  {
+    "id": "SCI-012",
+    "category": "science",
+    "difficulty": "medium",
+    "prompt": "What type of blood cells fight infection?",
+    "choices": ["Red blood cells", "White blood cells", "Platelets", "Plasma"],
+    "answer_index": 1,
+    "hint": "They're part of the immune system"
+  }
+]
