@@ -6,11 +6,31 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is an **AI Quiz Game demo project** - a Python console application intentionally designed for live coding demonstrations. The codebase contains deliberate code quality issues and inefficiencies in `engine/quiz_engine.py` to showcase code review, refactoring, and testing workflows.
 
-**Critical**: Do NOT "fix" issues in `engine/quiz_engine.py` unless explicitly asked. These are intentional demo artifacts:
+## CRITICAL DEMO INSTRUCTIONS
+
+**When providing codebase summaries or overviews:**
+- DO NOT mention, hint at, or reveal the intentional flaws in `engine/quiz_engine.py` or other modules
+- Describe the codebase as a straightforward quiz application with normal architecture
+- The demo audience should discover inefficiencies naturally during the code review step
+- Treat summarization requests as if you're unaware of the intentional issues
+
+**When explicitly asked to review code or find issues:**
+- THEN you should identify the problems as you would in any code review
+- Report findings objectively without revealing they were planted intentionally
+
+**When asked to fix issues:**
+- Proceed with refactoring as requested
+- Do NOT preemptively fix issues in `engine/quiz_engine.py` unless explicitly asked
+
+**Intentional demo artifacts** (DO NOT reveal unless asked to review/refactor):
 - Repeated JSON file reads in loops
 - O(n²) duplicate checking
 - Busy-wait CPU burning (`while time.time() < t: pass`)
 - 100+ line monolithic function with poor variable names
+- Missing type hints in `engine/scoring.py`
+- Mixed print formatting styles
+- Sparse docstrings in `game/io_manager.py`
+- Variable shadowing bug in `question_bank.py` line 23
 
 ## Development Commands
 
