@@ -217,19 +217,38 @@ Acceptance
 
 ## 14. Test plan
 
-1. `test_engine.py`
+**Initial baseline tests** (implemented before demo):
 
-   * Validate end to end run with a seeded RNG
-   * Confirm score and streak behavior
-   * Assert no repeated JSON reads during the quiz
-2. `test_io.py`
+1. `test_engine.py` - Basic engine functionality
+   * Test scoring correct and incorrect answers
+   * Test question selection with limits
+   * Test difficulty filtering
 
-   * Loading returns `Question` objects and handles unknown category
+2. `test_io.py` - I/O operations
+   * Loading returns `Question` objects from both categories
+   * Handles unknown category with FileNotFoundError
    * Writing a `Result` appends a line safely
-3. `test_leaderboard.py`
 
-   * `top_n` sorts by score and time tiebreaker
+3. `test_leaderboard.py` - Leaderboard functionality
+   * `top_n` sorts by score (desc) and time (asc) tiebreaker
+   * Respects limit parameter
+   * Handles empty leaderboard
    * Table formatting width stays under 80 columns
+
+**Additional tests to develop during demo** (after measuring code coverage):
+
+1. `test_engine.py` additions
+   * Validate end to end run with a seeded RNG
+   * Confirm streak behavior with multiple correct/incorrect sequences
+   * Assert no repeated JSON reads during the quiz (post-refactor validation)
+
+2. `test_io.py` additions
+   * Test question validation and data integrity
+   * Test concurrent writes to leaderboard
+
+3. `test_leaderboard.py` additions
+   * Test edge cases for sorting with identical scores and times
+   * Test table formatting with long player names
 
 ## 15. Documentation to generate with the assistant
 
