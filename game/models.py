@@ -20,9 +20,10 @@ class Question:
 class Result:
     """Represents a quiz session result."""
     player: str
-    score: int
+    score: float
     total: int
     streak_max: int
     seconds: float
     category: str
     timestamp: str
+    hints_used: int = 0

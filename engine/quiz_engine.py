@@ -1,99 +1,167 @@
-"""Quiz engine with intentional inefficiencies for demo purposes."""
+"""Quiz engine for running interactive quiz sessions."""
 
-import json
 import time
 from datetime import datetime
+from typing import List
 from game.models import Question, Result
-from game.config import load_config
 from engine.scoring import score_answer
 
 
-def run_quiz(questions):
-    """Run a quiz session with intentional inefficiencies.
+def get_player_name() -> str:
+    """Prompt for and return the player's name.
 
-    INTENTIONAL ISSUES (for demo purposes):
-    1. Repeated JSON file reads inside the loop
-    2. O(n^2) duplicate checking for already asked questions
-    3. Busy wait for fake delay between questions
-    4. Mixed concerns in a single 80+ line function with poor naming
+    Returns:
+        The player's name, or "Anonymous" if no name provided.
     """
-    print("\n" + "="*60)
-    print("WELCOME TO THE AI QUIZ GAME!")
-    print("="*60 + "\n")
-
     player = input("Enter your name: ").strip()
     if not player:
         player = "Anonymous"
+    return player
 
-    s = 0  # score (poor variable name)
-    t = len(questions)  # total (poor variable name)
+
+def display_question(question: Question, question_num: int, total: int) -> None:
+    """Display a quiz question with its choices.
+
+    Args:
+        question: The Question object to display.
+        question_num: Current question number (1-indexed).
+        total: Total number of questions in the quiz.
+    """
+    print(f"\nQuestion {question_num}/{total}")
+    print("-" * 60)
+    print(f"Category: {question.category.upper()} | Difficulty: {question.difficulty.upper()}")
+    print(f"\n{question.prompt}\n")
+
+    for idx, choice in enumerate(question.choices):
+        print(f"  {idx + 1}. {choice}")
+
+
+def get_user_answer(num_choices: int, hints_enabled: bool = False, hint_text: str = None) -> tuple[int, bool]:
+    """Prompt user for their answer choice with validation.
+
+    Args:
+        num_choices: Number of available choices.
+        hints_enabled: Whether hints are enabled for this quiz.
+        hint_text: The hint text to display if user requests it.
+
+    Returns:
+        Tuple of (zero-indexed choice, whether hint was requested).
+    """
+    hint_requested = False
+
+    while True:
+        try:
+            if hints_enabled and not hint_requested:
+                answer = input("\nYour answer (1-4, or 'h' for hint): ").strip().lower()
+            else:
+                answer = input("\nYour answer (1-4): ").strip()
+
+            if hints_enabled and answer == 'h' and not hint_requested:
+                hint_requested = True
+                if hint_text:
+                    print(f"\nHint: {hint_text}")
+                continue
+
+            user_choice = int(answer) - 1
+            if 0 <= user_choice < num_choices:
+                return user_choice, hint_requested
+            else:
+                print(f"Please enter a number between 1 and {num_choices}.")
+        except ValueError:
+            print(f"Invalid input. Please enter a number between 1 and {num_choices}.")
+
+
+def display_feedback(correct: bool, points: float, correct_answer: str = None) -> None:
+    """Display feedback for the user's answer.
+
+    Args:
+        correct: Whether the answer was correct.
+        points: Points earned for the answer.
+        correct_answer: The correct answer text (shown if incorrect).
+    """
+    if correct:
+        print(f"\n✓ Correct! +{points} points")
+    else:
+        print(f"\n✗ Wrong! The correct answer was: {correct_answer}")
+
+
+def display_result_summary(result: Result) -> None:
+    """Display the final quiz results.
+
+    Args:
+        result: The Result object containing quiz statistics.
+    """
+    print("\n" + "=" * 60)
+    print("QUIZ COMPLETE!")
+    print("=" * 60)
+    print(f"Player: {result.player}")
+    print(f"Score: {result.score}/{result.total} ({100*result.score/result.total:.1f}%)")
+    print(f"Best Streak: {result.streak_max}")
+    if result.hints_used > 0:
+        print(f"Hints Used: {result.hints_used}")
+    print(f"Time: {result.seconds:.1f} seconds")
+    print("=" * 60 + "\n")
+
+
+def run_quiz(questions: List[Question], hints_enabled: bool = False) -> Result:
+    """Run an interactive quiz session.
+
+    Args:
+        questions: List of Question objects to ask the user.
+        hints_enabled: Whether to allow users to request hints.
+
+    Returns:
+        Result object containing quiz statistics and score.
+    """
+    print("\n" + "=" * 60)
+    print("WELCOME TO THE AI QUIZ GAME!")
+    print("=" * 60 + "\n")
+
+    player = get_player_name()
+
+    score = 0.0
+    total_questions = len(questions)
     streak = 0
     max_streak = 0
-    asked = []  # list to track asked question IDs (inefficient)
+    hints_used = 0
+    asked_ids = set()  # Use set for O(1) duplicate checking
 
     start_time = time.time()
 
-    for i in range(len(questions)):
-        # INEFFICIENCY 1: Repeated file read inside loop
-        config = load_config()
-        data_folder = config["data_folder"]
-        category = questions[0].category if questions else "general"
-        file_path = data_folder / f"questions_{category}.json"
-        with open(file_path, 'r') as f:
-            raw_data = json.load(f)
-
-        q = questions[i]
-
-        # INEFFICIENCY 2: O(n^2) duplicate check
-        is_duplicate = False
-        for asked_id in asked:
-            if asked_id == q.id:
-                is_duplicate = True
-                break
-
-        if is_duplicate:
+    for i, question in enumerate(questions):
+        # Skip duplicate questions using O(1) set lookup
+        if question.id in asked_ids:
             continue
 
-        asked.append(q.id)
+        asked_ids.add(question.id)
 
-        print(f"\nQuestion {len(asked)}/{t}")
-        print("-" * 60)
-        print(f"Category: {q.category.upper()} | Difficulty: {q.difficulty.upper()}")
-        print(f"\n{q.prompt}\n")
+        # Display the question
+        display_question(question, len(asked_ids), total_questions)
 
-        for idx, choice in enumerate(q.choices):
-            print(f"  {idx + 1}. {choice}")
+        # Get user's answer (and check if hint was requested)
+        user_choice, hint_used = get_user_answer(len(question.choices), hints_enabled, question.hint)
 
-        # Get user input with validation
-        while True:
-            try:
-                answer = input("\nYour answer (1-4): ").strip()
-                user_choice = int(answer) - 1
-                if 0 <= user_choice < len(q.choices):
-                    break
-                else:
-                    print("Please enter a number between 1 and 4.")
-            except (ValueError, KeyboardInterrupt):
-                print("Invalid input. Please enter a number between 1 and 4.")
+        # Track hints used
+        if hint_used:
+            hints_used += 1
 
         # Score the answer
-        correct, points = score_answer(q, user_choice)
+        correct, points = score_answer(question, user_choice, hint_used)
 
+        # Update score and streak
         if correct:
-            print(f"\n✓ Correct! +{points} points")
-            s += points
+            score += points
             streak += 1
             if streak > max_streak:
                 max_streak = streak
+            display_feedback(True, points)
         else:
-            correct_answer = q.choices[q.answer_index]
-            print(f"\n✗ Wrong! The correct answer was: {correct_answer}")
             streak = 0
+            correct_answer = question.choices[question.answer_index]
+            display_feedback(False, points, correct_answer)
 
-        # INEFFICIENCY 3: Busy wait instead of time.sleep()
-        delay_end = time.time() + 0.5
-        while time.time() < delay_end:
-            pass  # Busy wait burns CPU
+        # Brief delay between questions (yields CPU)
+        time.sleep(0.5)
 
     end_time = time.time()
     elapsed = end_time - start_time
@@ -101,22 +169,16 @@ def run_quiz(questions):
     # Create result
     result = Result(
         player=player,
-        score=s,
-        total=t,
+        score=score,
+        total=total_questions,
         streak_max=max_streak,
         seconds=elapsed,
         category=questions[0].category if questions else "general",
-        timestamp=datetime.utcnow().isoformat() + "Z"
+        timestamp=datetime.utcnow().isoformat() + "Z",
+        hints_used=hints_used
     )
 
     # Display summary
-    print("\n" + "="*60)
-    print("QUIZ COMPLETE!")
-    print("="*60)
-    print(f"Player: {result.player}")
-    print(f"Score: {result.score}/{result.total} ({100*result.score/result.total:.1f}%)")
-    print(f"Best Streak: {result.streak_max}")
-    print(f"Time: {result.seconds:.1f} seconds")
-    print("="*60 + "\n")
+    display_result_summary(result)
 
     return result

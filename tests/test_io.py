@@ -63,12 +63,13 @@ def test_save_result(tmp_path, monkeypatch):
 
     result = Result(
         player="TestPlayer",
-        score=8,
+        score=8.0,
         total=10,
         streak_max=5,
         seconds=45.5,
         category="test",
-        timestamp="2025-11-03T12:00:00Z"
+        timestamp="2025-11-03T12:00:00Z",
+        hints_used=0
     )
 
     save_result(result)
@@ -80,8 +81,44 @@ def test_save_result(tmp_path, monkeypatch):
         line = f.readline()
         data = json.loads(line)
         assert data["player"] == "TestPlayer"
-        assert data["score"] == 8
+        assert data["score"] == 8.0
         assert data["total"] == 10
         assert data["streak_max"] == 5
         assert data["seconds"] == 45.5
         assert data["category"] == "test"
+        assert data["hints_used"] == 0
+
+
+def test_save_result_with_hints(tmp_path, monkeypatch):
+    """Test saving a result with hints used."""
+    temp_leaderboard = tmp_path / "test_leaderboard.jsonl"
+
+    def mock_load_config():
+        return {
+            "data_folder": Path("data"),
+            "leaderboard_path": temp_leaderboard
+        }
+
+    monkeypatch.setattr("game.io_manager.load_config", mock_load_config)
+
+    result = Result(
+        player="HintUser",
+        score=7.5,
+        total=10,
+        streak_max=4,
+        seconds=50.0,
+        category="test",
+        timestamp="2025-11-03T12:00:00Z",
+        hints_used=3
+    )
+
+    save_result(result)
+
+    assert temp_leaderboard.exists()
+
+    with open(temp_leaderboard, 'r') as f:
+        line = f.readline()
+        data = json.loads(line)
+        assert data["player"] == "HintUser"
+        assert data["score"] == 7.5
+        assert data["hints_used"] == 3

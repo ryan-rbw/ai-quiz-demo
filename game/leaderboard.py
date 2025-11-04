@@ -33,7 +33,8 @@ def top_n(n: int) -> List[Result]:
                 streak_max=data["streak_max"],
                 seconds=data["seconds"],
                 category=data["category"],
-                timestamp=data["timestamp"]
+                timestamp=data["timestamp"],
+                hints_used=data.get("hints_used", 0)  # Default to 0 for old records
             ))
 
     # Sort by score descending, then by time ascending

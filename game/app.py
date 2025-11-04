@@ -28,6 +28,7 @@ def main(
     category: str = typer.Option("general", "--category", "-c", help="Question category (general, science)"),
     limit: int = typer.Option(10, "--limit", "-l", help="Number of questions"),
     difficulty: Optional[str] = typer.Option(None, "--difficulty", "-d", help="Filter by difficulty (easy/medium/hard)"),
+    hints: bool = typer.Option(False, "--hints", "-h", help="Enable hints (halves points when used)"),
     leaderboard: Optional[int] = typer.Option(None, "--leaderboard", "-b", help="Show top N scores and exit")
 ):
     """Run the AI Quiz Game.
@@ -35,6 +36,7 @@ def main(
     Examples:
         python -m game.app
         python -m game.app --category science --limit 5
+        python -m game.app --hints
         python -m game.app --leaderboard 10
     """
     config = load_config()
@@ -62,7 +64,7 @@ def main(
         sys.exit(1)
 
     # Run the quiz
-    result = run_quiz(selected)
+    result = run_quiz(selected, hints_enabled=hints)
 
     # Save the result
     save_result(result)

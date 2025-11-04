@@ -44,7 +44,8 @@ def save_result(result: Result):
         "streak_max": result.streak_max,
         "seconds": result.seconds,
         "category": result.category,
-        "timestamp": result.timestamp
+        "timestamp": result.timestamp,
+        "hints_used": result.hints_used
     }
 
     with open(leaderboard_path, 'a') as f:

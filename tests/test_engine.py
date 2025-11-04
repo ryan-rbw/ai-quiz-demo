@@ -20,7 +20,7 @@ def test_score_answer_correct():
 
     correct, points = score_answer(question, 2)
     assert correct is True
-    assert points == 1
+    assert points == 1.0
 
 
 def test_score_answer_incorrect():
@@ -37,7 +37,58 @@ def test_score_answer_incorrect():
 
     correct, points = score_answer(question, 3)
     assert correct is False
-    assert points == 0
+    assert points == 0.0
+
+
+def test_score_answer_correct_with_hint():
+    """Test scoring a correct answer when hint was used."""
+    question = Question(
+        id="TEST-003",
+        category="test",
+        difficulty="easy",
+        prompt="Test question?",
+        choices=["A", "B", "C", "D"],
+        answer_index=2,
+        hint="Test hint"
+    )
+
+    correct, points = score_answer(question, 2, hint_used=True)
+    assert correct is True
+    assert points == 0.5
+
+
+def test_score_answer_incorrect_with_hint():
+    """Test scoring an incorrect answer when hint was used."""
+    question = Question(
+        id="TEST-004",
+        category="test",
+        difficulty="easy",
+        prompt="Test question?",
+        choices=["A", "B", "C", "D"],
+        answer_index=1,
+        hint="Test hint"
+    )
+
+    correct, points = score_answer(question, 3, hint_used=True)
+    assert correct is False
+    assert points == 0.0
+
+
+def test_score_answer_without_hint_parameter():
+    """Test scoring works with default hint_used=False."""
+    question = Question(
+        id="TEST-005",
+        category="test",
+        difficulty="easy",
+        prompt="Test question?",
+        choices=["A", "B", "C", "D"],
+        answer_index=0,
+        hint="Test hint"
+    )
+
+    correct, points = score_answer(question, 0)
+    assert correct is True
+    assert points == 1.0
 
 
 def test_select_questions_limit():
